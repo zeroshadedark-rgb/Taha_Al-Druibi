@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title> Taha_My CV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg1: #081122;
+            --bg2: #0f1724;
+            --glass: rgba(255, 255, 255, 0.04);
+            --accent1: #00f5ff;
+            --accent2: #7c4dff;
+            --accent3: #ff6ea6;
+            --muted: #9aa4b2;
+            --card: #0b1220;
+            --text: #eaf2ff;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Cairo', system-ui, 'Poppins';
+            background: linear-gradient(120deg, var(--bg1), var(--bg2));
+            color: var(--text);
+            overflow-x: hidden
+        }
+        
+        #bgCanvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none
+        }
+        
+        .wrap {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+            margin: 48px auto;
+            padding: 28px;
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 28px
+        }
+        
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 22px;
+            border-radius: 18px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6)
+        }
+        
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center
+        }
+        
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2), var(--accent3));
+            display: grid;
+            place-items: center;
+            color: #081022;
+            font-weight: 800;
+            font-size: 44px;
+            border: 6px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 20px 50px rgba(124, 77, 255, 0.12)
+        }
+        
+        .name {
+            margin-top: 14px;
+            font-size: 20px;
+            font-weight: 700
+        }
+        
+        .role {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 6px
+        }
+        
+        .meta {
+            margin-top: 18px;
+            width: 100%;
+            font-size: 14px;
+            color: var(--muted)
+        }
+        
+        .meta div {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.02)
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+        
+        .btn {
+            border: 0;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--accent2), var(--accent1));
+            color: #021224;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.06);
+            transition: transform .18s ease, box-shadow .18s
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(110, 243, 255, 0.12)
+        }
+        
+        .ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.06)
+        }
+        
+        .main {
+            display: flex;
+            flex-direction: column;
+            gap: 18px
+        }
+        
+        .section {
+            padding: 18px;
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
+            overflow: hidden
+        }
+        
+        .section h2 {
+            margin: 0 0 12px;
+            color: var(--accent1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Poppins';
+            font-weight: 600
+        }
+        
+        .summary {
+            color: var(--muted);
+            line-height: 1.7
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+        
+        .skill {
+            margin: 8px 0
+        }
+        
+        .skill .label {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 13px
+        }
+        
+        .prog {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 8px
+        }
+        
+        .prog>i {
+            display: block;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+            width: 0;
+            box-shadow: 0 8px 28px rgba(124, 77, 255, 0.08);
+            transition: width 1200ms cubic-bezier(.2, .9, .3, 1)
+        }
+        
+        .controls-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+        
+        .filter {
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer
+        }
+        
+        .portfolio {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 14px;
+            margin-top: 14px
+        }
+        
+        .proj {
+            border-radius: 12px;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            transition: transform .25s, box-shadow .25s
+        }
+        
+        .proj:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(2, 6, 23, 0.6)
+        }
+        
+        .proj img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover
+        }
+        
+        .proj .pinfo {
+            padding: 12px
+        }
+        
+        .tag {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 12px;
+            color: var(--muted)
+        }
+        
+        form {
+            display: grid;
+            gap: 10px
+        }
+        
+        input,
+        textarea {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 10px;
+            border-radius: 8px;
+            color: var(--text)
+        }
+        
+        textarea {
+            min-height: 90px
+        }
+        
+        .topbar {
+            position: fixed;
+            right: 18px;
+            top: 18px;
+            display: flex;
+            gap: 10px;
+            z-index: 5
+        }
+        
+        .icon-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer
+        }
+        
+        @media (max-width:1000px) {
+            .wrap {
+                grid-template-columns: 1fr;
+                padding: 16px
+            }
+            .avatar {
+                width: 120px;
+                height: 120px
+            }
+        }
+        
+        .light {
+            --bg1: #f3f6ff;
+            --bg2: #eef2ff;
+            --card: #ffffff;
+            --text: #071022;
+            --muted: #475569
+        }
+        
+        .light .card {
+            background: linear-gradient(180deg, rgba(3, 7, 18, 0.02), transparent);
+            border: 1px solid rgba(3, 7, 18, 0.04)
+        }
+        
+        .light .section {
+            background: linear-gradient(180deg, rgba(2, 6, 23, 0.02), transparent);
+            border: 1px solid rgba(2, 6, 23, 0.03)
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bgCanvas"></canvas>
+    <div class="topbar">
+        <div class="icon-btn" title="تبديل الثيم" onclick="toggleTheme()">🎇</div>
+        <div class="icon-btn" title="العربية" onclick="setLang('ar')">AR</div>
+        <div class="icon-btn" title="English" onclick="setLang('en')">EN</div>
+        <div class="icon-btn" title="تحميل PDF" onclick="downloadPDF()">🔽</div>
+    </div>
+    <div class="wrap" id="page">
+
+        <aside class="card">
+            <div class="profile">
+                <div class="avatar">
+                    <img src="https://i.ibb.co/DPWkvV3X/myphoto.jpg" alt="Taha" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                </div>
+                <div class="name" id="fullName">طه عبدالله الدريبي</div>
+                <div class="role" id="role">متقدم في الأمن السيبراني | متقدم في لغات البرمجة</div>
+            </div>
+            <div class="meta">
+                <div><strong>الاسم</strong><span id="m_name">طه عبدالله الدريبي</span></div>
+                <div><strong>التخصص</strong><span id="m_major">أمن سيبراني</span></div>
+                <div><strong>البريد</strong><span id="m_email">tahaaldruibi@gmail.com</span></div>
+                <div><strong>رقم الهاتف</strong><span id="m_phone">+967772029870</span></div>
+                <div><strong>العنوان</strong><span id="m_addr">صنعاء</span></div>
+            </div>
+            <div class="actions">
+                <button class="btn" onclick="printCV()">🅿 طباعة</button>
+                <button class="btn ghost" onclick="downloadHTML()">🔽 تحميل HTML</button>
+            </div>
+        </aside>
+        <main class="main">
+            <section class="section" id="aboutSec">
+                <h2><i class="fas fa-user"></i> نبذة</h2>
+                <p class="summary" id="aboutText">انا طه، احب تعلم البرمجة والهاكر الاخلاقي، اتعلم كل يوم شي جديد. اعرف لغات: HTML, Python, Laravel, C# وأحب تطوير نفسي علمياً.</p>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-graduation-cap"></i> التعليم والشهادات</h2>
+                <div class="list">
+                    <div><strong id="edu_title">بكالوريوس امن سيبراني</strong> — <span id="edu_uni">الجامعة التخصصية الحديثة</span> <small id="edu_year">2022-2025</small></div>
+                    <div style="margin-top:8px"><strong>مشروع التخرج:</strong> <span id="proj">تطوير نظام كشف التسلل</span></div>
+                    <div style="margin-top:10px"><strong>CEH</strong> — EC-Council <small>2025</small></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-tools"></i> المهارات</h2>
+                <div class="skills-grid">
+                    <div>
+                        <div class="skill">
+                            <div class="label"><span>HTML</span><span>60%</span></div>
+                            <div class="prog"><i data-width="60%"></i></div>
+                        </div>
+                        <div class="skill">
+                            <div class="label"><span>Python</span><span>75%</span></div>
+                            <div class="prog"><i data-width="75%"></i></div>
+                        </div>
+                        <div class="skill">
+                            <div class="label"><span>Laravel</span><span>60%</span></div>
+                            <div class="prog"><i data-width="60%"></i></div>
+                        </div>
+                        <div class="skill">
+                            <div class="label"><span>C#</span><span>70%</span></div>
+                            <div class="prog"><i data-width="70%"></i></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="skill">
+                            <div class="label"><span>اختراق</span><span>70%</span></div>
+                            <div class="prog"><i data-width="70%"></i></div>
+                        </div>
+                        <div class="skill">
+                            <div class="label"><span>تحليل برمجيات خبيثة</span><span>50%</span></div>
+                            <div class="prog"><i data-width="50%"></i></div>
+                        </div>
+                        <div class="skill">
+                            <div class="label"><span>الهندسة العكسية</span><span>30%</span></div>
+                            <div class="prog"><i data-width="30%"></i></div>
+                        </div>
+                        <div class="skill">
+                            <div class="label"><span>تحليل الثغرات</span><span>40%</span></div>
+                            <div class="prog"><i data-width="40%"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>الدورات</h2>
+                <div class="list">
+                    <div class="item">
+                        <div class="title">دورات امن سيبراني</div>
+                        <div class="meta">أقدم دورات في تعلم نظام</div>
+                        <div class="meta"> Kali Linux </div>
+                        <div class="meta"> منها مدفوعة ومنها مجانية</div>
+                        <div class="meta"> على قناتي على التلجرام</div>
+                        <div class="meta"> #ZEROSHADE_TAEM_YE_CS </div>
+                    </div>
+                    <div class="item">
+                        <div class="title">قائمة مهارات الدورة</div>
+                        <div class="meta">اساسيات Kali.</div>
+                        <div class="meta"> تحليل ثغرات HTML, Python, Laravel, #C</div>
+                        <div class="meta">أختراق اخلاقي</div>
+                        <div class="meta">دروس على لغات البرمجه HTML, Python, Laravel, #C</div>
+                    </div>
+                </div>
+            </section>
+
+            <main class="main">
+
+                <section class="section">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+                        <h2><i class="fas fa-images"></i> معرض الأعمال</h2>
+                        <div class="controls-row">
+                            <div class="filter" onclick="filterPortfolio('all')">الكل</div>
+                            <div class="filter" onclick="filterPortfolio('sec')">أمن</div>
+                            <div class="filter" onclick="filterPortfolio('dev')">برمجة</div>
+                        </div>
+                    </div>
+                    <div class="portfolio" id="portfolio">
+                        <div class="proj" data-type="sec">
+                            <a href="ids.html"><img src="ids_img_placeholder.png" alt="IDS"></a>
+                            <div class="pinfo">
+                                <h3>نظام كشف التسلل</h3>
+                                <p>نظام كشف وتحليل هجمات الشبكة (IDS) مع لوحات بيانية وتشغيل تنبيهات.</p><span class="tag">أمن</span></div>
+                        </div>
+                        <div class="proj" data-type="dev">
+                            <a href="project2.html"><img src="project2_img_placeholder.png" alt="Vuln"></a>
+                            <div class="pinfo">
+                                <h3>أداة فحص الثغرات</h3>
+                                <p>أداة لفحص ثغرات تطبيقات الويب واصدار تقرير تلقائي.</p><span class="tag">برمجة</span></div>
+                        </div>
+                        <div class="proj" data-type="dev">
+                            <a href="project3.html"><img src="project3_img_placeholder.png" alt="Dashboard"></a>
+                            <div class="pinfo">
+                                <h3>لوحة تحكم لمشروع</h3>
+                                <p>لوحة تحكم Dashboard لإدارة التحليلات وعرض النتائج بشكل مرئي.</p><span class="tag">برمجة</span></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2><i class="fas fa-envelope"></i> تواصل</h2>
+                    <form id="contactForm">
+                        <input name="name" placeholder="الاسم" required />
+                        <input name="email" type="email" placeholder="البريد" required />
+                        <input name="subject" placeholder="الموضوع" />
+                        <textarea name="message" placeholder="الرسالة" required></textarea>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap">
+                            <button class="btn" type="submit">إرسال</button>
+                            <button class="btn ghost" type="button" onclick="fillDemo()">املأ تلقائياً</button>
+                        </div>
+                    </form>
+                    <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+                        <a href="https://wa.me/967772029870" target="_blank" class="btn">واتساب</a>
+                        <a href="https://t.me/ZeroShade_teem_YE_CS" target="_blank" class="btn">تلغرام</a>
+                    </div>
+                </section>
+
+            </main>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, particles = [];
+
+        function resize() {
+            W = canvas.width = innerWidth;
+            H = canvas.height = innerHeight
+        }
+        window.addEventListener('resize', resize);
+        resize();
+        // particles
+        class P {
+            constructor() {
+                this.reset()
+            }
+            reset() {
+                this.x = Math.random() * W;
+                this.y = Math.random() * H;
+                this.r = 1 + Math.random() * 2;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.alpha = 0.1 + Math.random() * 0.6
+            }
+            move() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset()
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.fillStyle = 'rgba(255,255,255,' + this.alpha + ')';
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fill()
+            }
+        }
+        for (let i = 0; i < 100; i++) particles.push(new P());
+        let t = 0;
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            // gradient mesh
+            const g = ctx.createLinearGradient(0, 0, W, H);
+            g.addColorStop(0, 'rgba(0,245,255,0.06)');
+            g.addColorStop(0.5, 'rgba(124,77,255,0.05)');
+            g.addColorStop(1, 'rgba(255,110,166,0.04)');
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, W, H);
+            particles.forEach(p => {
+                p.move();
+                p.draw()
+            });
+            t += 0.005;
+            requestAnimationFrame(draw)
+        }
+        draw();
+
+
+        function animateSkills() {
+            document.querySelectorAll('.prog > i').forEach(el => {
+                const w = el.dataset.width || '0%';
+                el.style.width = w
+            });
+        }
+
+        window.addEventListener('load', animateSkills);
+        window.addEventListener('scroll', () => {
+            const about = document.querySelector('#aboutSec');
+            const rect = about.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) animateSkills();
+        });
+
+        const translations = {
+            en: {
+                dir: 'ltr',
+                lang: 'en',
+                fullName: 'Taha Abdullah Al-Duraibi',
+                role: 'Cybersecurity Specialist | Advanced Programmer',
+                about: 'I am Taha — passionate about programming and ethical hacking. I learn something new every day. Skilled in HTML, Python, Laravel, and C#.',
+                edu_title: 'B.Sc. in Cybersecurity',
+                edu_uni: 'Modern Specialized University',
+                edu_year: '2022-2025',
+                proj: 'Intrusion Detection System development',
+                courses: 'I teach Kali Linux courses (free & paid) via Telegram channel: #ZEROSHADE_TAEM_YE_CS',
+                portfolio_all: 'All',
+                portfolio_sec: 'Security',
+                portfolio_dev: 'Development',
+                contact: 'Contact',
+                print: 'Print',
+                download: 'Download HTML',
+                send: 'Send'
+            },
+            ar: {
+                dir: 'rtl',
+                lang: 'ar',
+                fullName: 'طه عبدالله الدريبي',
+                role: 'متقدم في الأمن السيبراني | متقدم في لغات البرمجة',
+                about: 'انا طه، احب تعلم البرمجة والهاكر الاخلاقي، اتعلم كل يوم شي جديد. اعرف لغات: HTML, Python, Laravel, C# وأحب تطوير نفسي علمياً.',
+                edu_title: 'بكالوريوس امن سيبراني',
+                edu_uni: 'الجامعة التخصصية الحديثة',
+                edu_year: '2022-2025',
+                proj: 'تطوير نظام كشف التسلل',
+                courses: 'اقدم دورات في تعلم نظام Kali Linux منها مدفوعة ومنها مجانية · Kali Linux + Telegram channel · #ZEROSHADE_TAEM_YE_CS'
+            }
+        }
+
+        function setLang(code) {
+            const t = translations[code] || translations.ar;
+            document.documentElement.lang = t.lang;
+            document.documentElement.dir = t.dir;
+            document.getElementById('fullName').innerText = t.fullName;
+            document.getElementById('role').innerText = t.role;
+            document.getElementById('aboutText').innerText = t.about;
+            document.getElementById('edu_title').innerText = t.edu_title;
+            document.getElementById('edu_uni').innerText = t.edu_uni;
+            document.getElementById('edu_year').innerText = t.edu_year;
+            document.getElementById('proj').innerText = t.proj;
+            document.getElementById('coursesText').innerText = t.courses;
+
+            document.querySelectorAll('.filter').forEach((el, idx) => {
+                if (code === 'en') {
+                    const map = ['All', 'Security', 'Development'];
+                    el.innerText = map[idx]
+                } else {
+                    const map = ['الكل', 'أمن', 'برمجة'];
+                    el.innerText = map[idx]
+                }
+            });
+
+        }
+
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('light');
+            document.body.classList.toggle('light')
+        }
+
+
+        function filterPortfolio(type) {
+            document.querySelectorAll('#portfolio .proj').forEach(p => {
+                if (type === 'all') p.style.display = 'block';
+                else p.style.display = (p.dataset.type === type) ? 'block' : 'none'
+            })
+        }
+
+
+        function fillDemo() {
+            document.querySelector('form input').value = 'جهة توظيف';
+            document.querySelector('form input[type=email]').value = 'Mr@example.com';
+            document.querySelector('form textarea').value = 'مرحبا طه، نرغب بالتواصل بخصوص فرصة عمل.'
+        }
+
+        function printCV() {
+            window.print()
+        }
+
+        function downloadHTML() {
+            const blob = new Blob([document.documentElement.outerHTML], {
+                type: 'text/html'
+            });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'CV_Taha.html';
+            document.body.appendChild(a);
+            a.click();
+            a.remove()
+        }
+
+        function downloadPDF() {
+            alert('لإنشاء PDF احترافي يمكنك استخدام طباعة المتصفح (Ctrl+P) وحفظ كملف PDF) — او اطلب مني ان انشئ لك PDF جاهز.');
+        }
+        setLang('ar');
+        window.addEventListener('load', () => {
+            animateSkills();
+        });
+
+
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = new FormData(contactForm);
+            fetch('https://formspree.io/f/xeorgdzo', { // ضع هنا Form ID الخاص بك
+                method: 'POST',
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert('تم إرسال الرسالة بنجاح! شكرًا لتواصلك.');
+                    contactForm.reset();
+                } else {
+                    alert('حدث خطأ أثناء إرسال الرسالة. حاول مرة أخرى.');
+                }
+            }).catch(err => {
+                alert('حدث خطأ في الاتصال بالخادم.')
+            });
+        });
+    </script>
+</body>
+
+</html>

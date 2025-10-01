@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title> Taha_My CV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg1: #081122;
+            --bg2: #0f1724;
+            --glass: rgba(255, 255, 255, 0.04);
+            --accent1: #00f5ff;
+            --accent2: #7c4dff;
+            --accent3: #ff6ea6;
+            --muted: #9aa4b2;
+            --card: #0b1220;
+            --text: #eaf2ff;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Cairo', system-ui, 'Poppins';
+            background: linear-gradient(120deg, var(--bg1), var(--bg2));
+            color: var(--text);
+            overflow-x: hidden
+        }
+        /* Animated gradient canvas behind */
+        
+        #bgCanvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none
+        }
+        
+        .wrap {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+            margin: 48px auto;
+            padding: 28px;
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 28px
+        }
+        
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 22px;
+            border-radius: 18px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6)
+        }
+        
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center
+        }
+        
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2), var(--accent3));
+            display: grid;
+            place-items: center;
+            color: #081022;
+            font-weight: 800;
+            font-size: 44px;
+            border: 6px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 20px 50px rgba(124, 77, 255, 0.12)
+        }
+        
+        .name {
+            margin-top: 14px;
+            font-size: 20px;
+            font-weight: 700
+        }
+        
+        .role {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 6px
+        }
+        
+        .meta {
+            margin-top: 18px;
+            width: 100%;
+            font-size: 14px;
+            color: var(--muted)
+        }
+        
+        .meta div {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.02)
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+        
+        .btn {
+            border: 0;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--accent2), var(--accent1));
+            color: #021224;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.06);
+            transition: transform .18s ease, box-shadow .18s
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(110, 243, 255, 0.12)
+        }
+        
+        .ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.06)
+        }
+        
+        .main {
+            display: flex;
+            flex-direction: column;
+            gap: 18px
+        }
+        
+        .section {
+            padding: 18px;
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
+            overflow: hidden
+        }
+        
+        .section h2 {
+            margin: 0 0 12px;
+            color: var(--accent1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Poppins';
+            font-weight: 600
+        }
+        
+        .summary {
+            color: var(--muted);
+            line-height: 1.7
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+        
+        .skill {
+            margin: 8px 0
+        }
+        
+        .skill .label {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 13px
+        }
+        
+        .prog {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 8px
+        }
+        
+        .prog>i {
+            display: block;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+            width: 0;
+            box-shadow: 0 8px 28px rgba(124, 77, 255, 0.08);
+            transition: width 1200ms cubic-bezier(.2, .9, .3, 1)
+        }
+        
+        .controls-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+        
+        .filter {
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer
+        }
+        
+        .portfolio {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 14px;
+            margin-top: 14px
+        }
+        
+        .proj {
+            border-radius: 12px;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            transition: transform .25s, box-shadow .25s
+        }
+        
+        .proj:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(2, 6, 23, 0.6)
+        }
+        
+        .proj img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover
+        }
+        
+        .proj .pinfo {
+            padding: 12px
+        }
+        
+        .tag {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 12px;
+            color: var(--muted)
+        }
+        
+        form {
+            display: grid;
+            gap: 10px
+        }
+        
+        input,
+        textarea {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 10px;
+            border-radius: 8px;
+            color: var(--text)
+        }
+        
+        textarea {
+            min-height: 90px
+        }
+        
+        .topbar {
+            position: fixed;
+            right: 18px;
+            top: 18px;
+            display: flex;
+            gap: 10px;
+            z-index: 5
+        }
+        
+        .icon-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer
+        }
+        
+        @media (max-width:1000px) {
+            .wrap {
+                grid-template-columns: 1fr;
+                padding: 16px
+            }
+            .avatar {
+                width: 120px;
+                height: 120px
+            }
+        }
+        
+        .light {
+            --bg1: #f3f6ff;
+            --bg2: #eef2ff;
+            --card: #ffffff;
+            --text: #071022;
+            --muted: #475569
+        }
+        
+        .light .card {
+            background: linear-gradient(180deg, rgba(3, 7, 18, 0.02), transparent);
+            border: 1px solid rgba(3, 7, 18, 0.04)
+        }
+        
+        .light .section {
+            background: linear-gradient(180deg, rgba(2, 6, 23, 0.02), transparent);
+            border: 1px solid rgba(2, 6, 23, 0.03)
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="topbar">
+        <div class="icon-btn" title="تبديل الثيم" onclick="toggleTheme()">🎇</div>
+        <!--
+        <div class="icon-btn" title="العربية" onclick="setLang('ar')">AR</div>
+        <div class="icon-btn" title="English" onclick="setLang('en')">EN</div>-->
+    </div>
+    <div class="wrap" id="page">
+        <aside class="card">
+            <div class="profile">
+                <div class="avatar" id="avatar"> <img src="https://i.ibb.co/DPWkvV3X/myphoto.jpg" alt="Taha" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                </div>
+                <div class="name" id="fullName">طه عبدالله الدريبي</div>
+                <div class="role" id="role">متقدم في الأمن السيبراني | متقدم في لغات البرمجة</div>
+            </div>
+        </aside>
+
+        <main class="main">
+            <section class="section" data-aos="fade-up">
+                <h2>مشروع لوحة تحكم</h2>
+                <p>وصف</p>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+                    <a class="btn" href="project3.zip" download>تحميل المشروع (ZIP)</a>
+                    <a class="btn ghost" href="index.html">العودة إلى الصفحة الرئيسية</a>
+                </div>
+                <hr style="margin:12px 0;border:none;border-top:1px dashed rgba(255,255,255,0.04)">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px">
+                    <div class="proj"><img src="images/project3_img1.jpg" alt=" 1">
+                        <div class="pinfo">
+                            <h4> 1</h4>
+                        </div>
+                    </div>
+                    <div class="proj"><img src="images/project3_img2.jpg" alt=" 2">
+                        <div class="pinfo">
+                            <h4> 2</h4>
+                        </div>
+                    </div>
+                    <div class="proj"><img src="images/project3_img3.jpg" alt=" 3">
+                        <div class="pinfo">
+                            <h4> 3</h4>
+                        </div>
+                    </div>
+                    <div class="proj"><img src="images/project3_img4.jpg" alt=" 4 ">
+                        <div class="pinfo">
+                            <h4> 4</h4>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <button id="topBtn" onclick="scrollTop()" style="
+  position:fixed;bottom:20px;right:20px;
+  display:none;padding:10px 14px;
+  border-radius:50%;background:#00f5ff;
+  border:none;cursor:pointer;font-size:18px;
+  box-shadow:0 6px 18px rgba(0,0,0,.3)">⬆</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+    <script>
+        function scrollTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('light');
+            document.body.classList.toggle('light')
+        }
+
+        function setLang(code) {};
+    </script>
+</body>
+
+</html>
